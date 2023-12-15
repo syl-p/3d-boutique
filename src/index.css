@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,600;1,900&display=swap');
+@import url('https://rsms.me/inter/inter.css');
+
+html {
+  font-family: 'Inter', sans-serif;
+}
+
+@supports (font-variation-settings: normal) {
+  html {
+    font-family: 'Inter var', sans-serif;
+  }
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+body #root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+.scroll-html .scroll-html__section {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+
+  & h2 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 900;
+    font-size: 3rem;
+    letter-spacing: -2px;
+    font-style: italic;
+    /* line-height: 10rem; */
+    margin: 0;
+  }
+}
+
+.scroll-html .scroll-html__section .scroll-html__section__actions {
+  display: flex;
+  gap: 15px;
+
+  & button {
+    background-color: #dd5c18;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-weight: bolder;
+    pointer-events: all;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+    box-shadow: inset 0 0 0 0.09px black;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 30px;
+
+    &:hover {
+      box-shadow: inset 250px 0 0 0 black;
+      transform: scale(1.1);
+    }
+  }
+}
+
+.overlay header {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  gap: 15px;
+  padding: 24px;
+  align-items: center;
+  z-index: 100;
+}
+
+.overlay header a {
+  flex: 1;
+  font-size: 1.5rem;
+}
+
+.overlay header nav {
+  font-size: 1.5rem;
+}
+
+.color {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  z-index: 1000;
+
+  & .color-selected {
+    border: 2px solid white;
+    width: 30px;
+    height: 30px;
+  }
+
+  & .color-choices {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+    list-style: none;
+
+    & li button {
+      width: 30px;
+      height: 30px;
+      border: 2px solid white;
+      cursor: pointer;
+
+      & span {
+        display: none;
+      }
+    }
+  }
+}
