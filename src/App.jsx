@@ -7,6 +7,7 @@ import { CustomizationProvider, useCustomization } from '../contexts/Customizati
 import gsap from 'gsap';
 import * as THREE from "three"
 import ColorPicker from './ColorPicker';
+import { delay, motion } from "framer-motion"
 
 function Backdrop() {
     const { mainColor, mainColorsPalette } = useCustomization()
@@ -35,6 +36,21 @@ function Rig() {
 }
 
 function Product(props) {
+    const scroll = useScroll()
+    const { products, setSelectedProduct, selectedProduct } = useCustomization()
+    const index = props.index
+
+    useFrame(() => {
+        const bool = scroll.visible(index / products.length, index / products.length, 0.1)
+        // if (index == 0) {
+        //     console.log(bool, selectedProduct, index, products.length)
+        // }
+
+        if (!bool && selectedProduct == index) {
+            setSelectedProduct(null)
+        }
+    })
+
     return <group  {...props}>
         <Center>
             {props.children}
@@ -47,14 +63,43 @@ function Items() {
     const { products } = useCustomization()
     const { selectedProduct, setSelectedProduct, mainColorsPalette, mainColor, setMainColor } = useCustomization()
 
+    const wrapVariants = {
+        open: {
+            opacitiy: 1,
+            x: 0,
+            transition: {
+                delay: .1,
+                type: "ease",
+                when: "beforeChildren",
+                staggerChildren: .1
+            }
+        },
+        closed: {
+            opacitiy: 0,
+            x: "-100%",
+            transition: {
+                delay: .1,
+                type: "ease",
+                when: "beforeChildren",
+                staggerChildren: .1
+            }
+        }
+    }
+
+
+    const stringsVariants = {
+        open: { opacity: 1, x: 0 },
+        closed: { opacity: 0, x: -100 },
+    }
+
     return <ScrollControls pages={products.length}>
         <Scroll>
             {
                 products.map((x, i) =>
-                    <Product key={i} position-y={-h * i}>
+                    <Product key={i} position-y={-h * i} index={i}>
                         <Backdrop />
                         {x.component}
-                        <Text scale={0.15} position={[0.4 * (i % 2 == 0 ? -1 : 1), 0.45, -0.2]}>
+                        <Text scale={0.15} position={[0.4 * (i % 2 == 0 ? -1 : 1), 0.45, -0.5]}>
                             {x.title}
                         </Text>
                     </Product>
@@ -64,14 +109,21 @@ function Items() {
         <Scroll html style={{ width: '100%' }} className="scroll-html">
             {products.map((x, i) =>
                 <section key={i} className="scroll-html__section">
-                    {selectedProduct == null && <>
-                        <h2>{x.buzzline}</h2>
-                        <p>{x.description}</p>
+                    <>
+                        <motion.header
+                            animate={selectedProduct != i ? "open" : "closed"}
+                            variants={wrapVariants}>
+                            <motion.h2 variants={stringsVariants}>{x.buzzline}</motion.h2>
+                            <motion.p variants={stringsVariants}>{x.description}</motion.p>
+                        </motion.header>
                         <div className="scroll-html__section__actions">
                             <button>Acheter</button>
-                            <button onClick={() => setSelectedProduct(i)}>Personnaliser</button>
+                            <motion.button onClick={() => setSelectedProduct(i)}
+                                animate={{ opacity: selectedProduct != i ? 1 : 0, transition: { delay: .1 } }}>
+                                Personnaliser
+                            </motion.button>
                         </div>
-                    </>}
+                    </>
 
                     {selectedProduct != null && x.colorsPositions.map(
                         (cp, j) => <ColorPicker key={j} position={cp} colors={mainColorsPalette} selectedColor={mainColor} choiceCallback={setMainColor} />

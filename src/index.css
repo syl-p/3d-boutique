@@ -49,16 +49,20 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0;
+  gap: 15px;
 
-  & h2 {
-    font-family: 'Nunito Sans', sans-serif;
-    font-weight: 900;
-    font-size: 3rem;
-    letter-spacing: -2px;
-    font-style: italic;
-    /* line-height: 10rem; */
-    margin: 0;
+  & header {
+    text-align: center;
+
+    & h2 {
+      font-family: 'Nunito Sans', sans-serif;
+      font-weight: 900;
+      font-size: 3rem;
+      letter-spacing: -2px;
+      font-style: italic;
+      /* line-height: 10rem; */
+      margin: 0;
+    }
   }
 }
 

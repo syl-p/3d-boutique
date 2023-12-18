@@ -19,6 +19,13 @@ const products = [
         buzzline: "Pour courrir vite",
         description: "Text de presentation du produit",
         colorsPositions: [[0, 0], [-100, -100]]
+    },
+    {
+        component: <Shoe />,
+        title: "Shoes",
+        buzzline: "Pour courrir vite",
+        description: "Text de presentation du produit",
+        colorsPositions: [[0, 0], [-100, -100]]
     }
 ]
 
