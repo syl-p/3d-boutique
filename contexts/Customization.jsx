@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { Shirt } from "../src/Shirt_baked_2";
 import { Shoe } from "../src/Shoe";
+import { BaseballCap } from "../src/BaseballCap";
 
 const CustomizationContext = createContext({})
 const mainColorsPalette = ['#ccc', '#EFBD4E', '#80C670', '#726DE8', '#EF674E', '#353934'];
@@ -21,11 +22,11 @@ const products = [
         colorsPositions: [[0, 0], [-100, -100]]
     },
     {
-        component: <Shoe />,
-        title: "Shoes",
-        buzzline: "Pour courrir vite",
+        component: <BaseballCap />,
+        title: "Casquette",
+        buzzline: "Pour se protéger du soleil",
         description: "Text de presentation du produit",
-        colorsPositions: [[0, 0], [-100, -100]]
+        colorsPositions: [[0, 0], [-100, -140]]
     }
 ]
 
