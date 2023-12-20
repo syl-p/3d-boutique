@@ -9,8 +9,8 @@ import { useCustomization } from '../contexts/Customization'
 
 export function Shirt(props) {
   const { selectedColors, selectedProduct, mainColorsPalette } = useCustomization()
-  const texture = useTexture(`/react.png`)
-  const { nodes, materials } = useGLTF('/models/shirt_baked_2.glb')
+  const texture = useTexture(`react.png`)
+  const { nodes, materials } = useGLTF('models/shirt_baked_2.glb')
 
   const colors = selectedColors[0] ?? 0
   return (
@@ -24,4 +24,4 @@ export function Shirt(props) {
   )
 }
 
-useGLTF.preload('/models/shirt_baked_2.glb')
+useGLTF.preload('models/shirt_baked_2.glb')

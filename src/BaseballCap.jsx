@@ -12,7 +12,7 @@ import { useGLTF } from '@react-three/drei'
 import { useCustomization } from '../contexts/Customization'
 
 export function BaseballCap(props) {
-  const { nodes, materials } = useGLTF('/models/baseball_cap.glb')
+  const { nodes, materials } = useGLTF('models/baseball_cap.glb')
   const { selectedColors, mainColorsPalette } = useCustomization()
   const colors = selectedColors[2] ?? 0
 
@@ -33,4 +33,4 @@ export function BaseballCap(props) {
   )
 }
 
-useGLTF.preload('/models/baseball_cap.glb')
+useGLTF.preload('models/baseball_cap.glb')

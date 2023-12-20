@@ -8,7 +8,7 @@ import { useGLTF } from '@react-three/drei'
 import { useCustomization } from '../contexts/Customization'
 
 export function Shoe(props) {
-  const { nodes, materials } = useGLTF('/models/shoe-draco.glb')
+  const { nodes, materials } = useGLTF('models/shoe-draco.glb')
   const { selectedColors, mainColorsPalette } = useCustomization()
   const colors = selectedColors[1] ?? 0
 
@@ -26,4 +26,4 @@ export function Shoe(props) {
   )
 }
 
-useGLTF.preload('/models/shoe-draco.glb')
+useGLTF.preload('models/shoe-draco.glb')
