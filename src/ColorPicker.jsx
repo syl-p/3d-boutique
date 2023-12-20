@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { memo } from "react"
 
-const ColorPicker = memo(function Picker({ position, selectedColor, colors, choiceCallback }) {
+const ColorPicker = memo(function Picker({ position, selectedColor, colors, productIndex, colorIndex, choiceCallback }) {
     const colorVariants = {
         visible: { opacity: 1, x: 0 },
         hidden: { opacity: 0, x: -100 },
@@ -33,7 +33,7 @@ const ColorPicker = memo(function Picker({ position, selectedColor, colors, choi
         <motion.ul variants={colorPickerVariants} initial="hidden" animate="visible" className="color-choices">
             {colors.map((x, i) =>
                 <motion.li variants={colorVariants} key={i} >
-                    <button onClick={() => choiceCallback(i)} style={{ backgroundColor: x }}>
+                    <button onClick={() => choiceCallback(productIndex, colorIndex, i)} style={{ backgroundColor: x }}>
                         <span>{x}</span>
                     </button>
                 </motion.li>

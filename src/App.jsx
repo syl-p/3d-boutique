@@ -11,15 +11,15 @@ import { AnimatePresence, motion } from "framer-motion"
 import Header from './Header';
 
 function Backdrop() {
-    const { mainColor, mainColorsPalette } = useCustomization()
+    const { mainColorsPalette, selectedColors, selectedProduct } = useCustomization()
     const shadows = useRef()
     useEffect(() => {
-        console.log("hello")
         if (shadows.current) {
-            const newColor = new THREE.Color(mainColorsPalette[mainColor])
+            const colors = selectedColors[selectedProduct] && selectedColors[selectedProduct][0] ? selectedColors[selectedProduct][0] : 0
+            const newColor = new THREE.Color(mainColorsPalette[colors])
             gsap.to(shadows.current.getMesh().material.color, { ...newColor, duration: 1 })
         }
-    }, [mainColor, mainColorsPalette])
+    }, [selectedColors, selectedProduct])
 
     return <AccumulativeShadows ref={shadows} frames={100} alphaTest={0.85} scale={10} rotation={[Math.PI / 2, 0, 0]} position={[0, 0.25, -0.15]}>
         <RandomizedLight amount={4} radius={9} intensity={0.90} ambient={0.25} position={[5, 5, -10]} />
@@ -61,7 +61,8 @@ function Product(props) {
 
 function Items() {
     const { height: h } = useThree((state) => state.viewport)
-    const { products, selectedProduct, setSelectedProduct, mainColorsPalette, mainColor, setMainColor } = useCustomization()
+    const { products, selectedProduct, setSelectedProduct, mainColorsPalette, mainColor,
+        selectedColors, setSelectedColors } = useCustomization()
 
     const wrapVariants = {
         visible: {
@@ -85,6 +86,26 @@ function Items() {
             opacity: 0, x: "-100%",
             transition: { ease: "linear" }
         },
+    }
+
+    const ctaVariants = {
+        normal: {
+            transition: { ease: "linear" }
+        },
+        solo: {
+            x: "-100%",
+            transition: { ease: "linear" }
+        },
+    }
+
+    function chooseColor(pIndex, cIndex, color) {
+        const slColors = { ...selectedColors }
+        if (!slColors[pIndex]) {
+            slColors[pIndex] = {}
+        }
+
+        slColors[pIndex][cIndex] = color
+        setSelectedColors(slColors)
     }
 
     return <>
@@ -117,6 +138,10 @@ function Items() {
                             </motion.header>}
                         </AnimatePresence>
                         <div className="scroll-html__section__actions">
+                            <motion.button variants={ctaVariants} initial="normal" animate={selectedProduct == i ? "solo" : "normal"}
+                                onClick={() => console.log("test")}>
+                                Acheter
+                            </motion.button>
                             <AnimatePresence mode="popLayout">
                                 {selectedProduct != i && <motion.button onClick={() => setSelectedProduct(i)}
                                     variants={btnVariants} initial="visible" exit="hidden">
@@ -126,14 +151,18 @@ function Items() {
                         </div>
                     </>
 
-                    {selectedProduct == i && x.colorsPositions.map(
-                        (cp, j) => <ColorPicker
-                            key={j}
-                            position={cp}
-                            colors={mainColorsPalette}
-                            selectedColor={mainColor}
-                            choiceCallback={setMainColor} />
-                    )}
+                    <AnimatePresence mode="popLayout">
+                        {selectedProduct == i && x.colorsPositions.map(
+                            (cp, j) => <ColorPicker
+                                key={j}
+                                productIndex={i}
+                                colorIndex={j}
+                                position={cp}
+                                colors={mainColorsPalette}
+                                selectedColor={selectedColors && selectedColors[i] && selectedColors[i][j] ? selectedColors[i][j] : 0}
+                                choiceCallback={chooseColor} />
+                        )}
+                    </AnimatePresence>
                 </section>
             )}
         </Scroll>

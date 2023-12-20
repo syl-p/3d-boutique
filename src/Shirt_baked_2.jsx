@@ -8,14 +8,16 @@ import { Decal, useGLTF, useTexture } from '@react-three/drei'
 import { useCustomization } from '../contexts/Customization'
 
 export function Shirt(props) {
-  const { mainColor, mainColorsPalette } = useCustomization()
+  const { selectedColors, selectedProduct, mainColorsPalette } = useCustomization()
   const texture = useTexture(`/react.png`)
   const { nodes, materials } = useGLTF('/models/shirt_baked_2.glb')
+
+  const colors = selectedColors[0] ?? 0
   return (
     <group {...props} dispose={null}>
       <mesh castShadow geometry={nodes.T_Shirt_male.geometry} material={materials.lambert1}
         position={[0.419, 0, 0]} rotation={[Math.PI / 2, 0, 0]}
-        material-color={mainColorsPalette[mainColor]} material-roughness={1} {...props} dispose={null}>
+        material-color={mainColorsPalette[colors[0]]} material-roughness={1} {...props} dispose={null}>
         <Decal position={[0, 0.04, 0.15]} rotation={[0, 0, 0]} scale={0.15} map={texture} />
       </mesh>
     </group>
