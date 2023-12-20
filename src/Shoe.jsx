@@ -10,17 +10,17 @@ import { useCustomization } from '../contexts/Customization'
 export function Shoe(props) {
   const { nodes, materials } = useGLTF('models/shoe-draco.glb')
   const { selectedColors, mainColorsPalette } = useCustomization()
-  const colors = selectedColors[1] ?? 0
+  const colors = selectedColors
 
   return (
     <group {...props} dispose={null} scale={0.4} rotation={[0, 0, - Math.PI / 0.45]} position-y={0.25}>
-      <mesh castShadow geometry={nodes.shoe.geometry} material={materials.laces} material-color={mainColorsPalette[colors[1]]} />
+      <mesh castShadow geometry={nodes.shoe.geometry} material={materials.laces} material-color={mainColorsPalette[colors[1] ?? 0]} />
       <mesh castShadow geometry={nodes.shoe_1.geometry} material={materials.mesh} />
-      <mesh castShadow geometry={nodes.shoe_2.geometry} material={materials.caps} material-color={mainColorsPalette[colors[0]]} />
-      <mesh castShadow geometry={nodes.shoe_3.geometry} material={materials.inner} material-color={mainColorsPalette[colors[0]]} />
-      <mesh castShadow geometry={nodes.shoe_4.geometry} material={materials.sole} material-color={mainColorsPalette[colors[0]]} />
-      <mesh castShadow geometry={nodes.shoe_5.geometry} material={materials.stripes} material-color={mainColorsPalette[colors[1]]} />
-      <mesh castShadow geometry={nodes.shoe_6.geometry} material={materials.band} material-color={mainColorsPalette[colors[0]]} />
+      <mesh castShadow geometry={nodes.shoe_2.geometry} material={materials.caps} material-color={mainColorsPalette[colors[0] ?? 0]} />
+      <mesh castShadow geometry={nodes.shoe_3.geometry} material={materials.inner} material-color={mainColorsPalette[colors[0] ?? 0]} />
+      <mesh castShadow geometry={nodes.shoe_4.geometry} material={materials.sole} material-color={mainColorsPalette[colors[0] ?? 0]} />
+      <mesh castShadow geometry={nodes.shoe_5.geometry} material={materials.stripes} material-color={mainColorsPalette[colors[1] ?? 0]} />
+      <mesh castShadow geometry={nodes.shoe_6.geometry} material={materials.band} material-color={mainColorsPalette[colors[0] ?? 0]} />
       <mesh castShadow geometry={nodes.shoe_7.geometry} material={materials.patch} />
     </group>
   )

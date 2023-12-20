@@ -33,7 +33,7 @@ const products = [
 export const CustomizationProvider = (props) => {
     const [mainColor, setMainColor] = useState(0)
     const [selectedProduct, setSelectedProduct] = useState(null)
-    const [selectedColors, setSelectedColors] = useState({})
+    const [selectedColors, setSelectedColors] = useState([0])
 
     return <CustomizationContext.Provider value={{
         products,

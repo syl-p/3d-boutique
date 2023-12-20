@@ -33,7 +33,7 @@ const ColorPicker = memo(function Picker({ position, selectedColor, colors, prod
         <motion.ul variants={colorPickerVariants} initial="hidden" animate="visible" className="color-choices">
             {colors.map((x, i) =>
                 <motion.li variants={colorVariants} key={i} >
-                    <button onClick={() => choiceCallback(productIndex, colorIndex, i)} style={{ backgroundColor: x }}>
+                    <button onClick={() => choiceCallback(colorIndex, i)} style={{ backgroundColor: x }}>
                         <span>{x}</span>
                     </button>
                 </motion.li>

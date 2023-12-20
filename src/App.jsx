@@ -15,8 +15,7 @@ function Backdrop() {
     const shadows = useRef()
     useEffect(() => {
         if (shadows.current) {
-            const colors = selectedColors[selectedProduct] && selectedColors[selectedProduct][0] ? selectedColors[selectedProduct][0] : 0
-            const newColor = new THREE.Color(mainColorsPalette[colors])
+            const newColor = new THREE.Color(mainColorsPalette[selectedColors[0]])
             gsap.to(shadows.current.getMesh().material.color, { ...newColor, duration: 1 })
         }
     }, [selectedColors, selectedProduct])
@@ -98,13 +97,14 @@ function Items() {
         },
     }
 
-    function chooseColor(pIndex, cIndex, color) {
-        const slColors = { ...selectedColors }
-        if (!slColors[pIndex]) {
-            slColors[pIndex] = {}
-        }
+    function selectProductCallback(i) {
+        setSelectedProduct(i)
+        setSelectedColors([])
+    }
 
-        slColors[pIndex][cIndex] = color
+    function chooseColor(i, color) {
+        const slColors = [...selectedColors]
+        slColors[i] = color
         setSelectedColors(slColors)
     }
 
@@ -143,7 +143,7 @@ function Items() {
                                 Acheter
                             </motion.button>
                             <AnimatePresence mode="popLayout">
-                                {selectedProduct != i && <motion.button onClick={() => setSelectedProduct(i)}
+                                {selectedProduct != i && <motion.button onClick={() => selectProductCallback(i)}
                                     variants={btnVariants} initial="visible" exit="hidden">
                                     Personnaliser
                                 </motion.button>}
@@ -159,7 +159,7 @@ function Items() {
                                 colorIndex={j}
                                 position={cp}
                                 colors={mainColorsPalette}
-                                selectedColor={selectedColors && selectedColors[i] && selectedColors[i][j] ? selectedColors[i][j] : 0}
+                                selectedColor={selectedColors && selectedColors[j] ? selectedColors[j] : 0}
                                 choiceCallback={chooseColor} />
                         )}
                     </AnimatePresence>
