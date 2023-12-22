@@ -10,7 +10,7 @@ import ColorPicker from './ColorPicker';
 import { AnimatePresence, motion } from "framer-motion"
 import Header from './Header';
 
-function Backdrop() {
+const BackdropMemo = memo(function Backdrop() {
     const { mainColorsPalette, selectedColors, selectedProduct } = useCustomization()
     const shadows = useRef()
     useEffect(() => {
@@ -20,11 +20,12 @@ function Backdrop() {
         }
     }, [selectedColors, selectedProduct])
 
-    return <AccumulativeShadows ref={shadows} frames={100} alphaTest={0.85} scale={10} rotation={[Math.PI / 2, 0, 0]} position={[0, 0.25, -0.15]}>
-        <RandomizedLight amount={4} radius={9} intensity={0.90} ambient={0.25} position={[5, 5, -10]} />
-        <RandomizedLight amount={4} radius={5} intensity={0.70} ambient={0.55} position={[-5, 5, -9]} />
+    return <AccumulativeShadows ref={shadows} alphaTest={0.5}
+        scale={10} rotation={[Math.PI / 2, 0, 0]} position={[0, 0.25, -0.30]}>
+        <RandomizedLight amount={4} radius={9} intensity={0.90} ambient={0.25} position={[5, 3, -10]} />
+        <RandomizedLight amount={4} radius={5} intensity={0.70} ambient={0.55} position={[-5, 3, -9]} />
     </AccumulativeShadows>
-}
+})
 
 function Rig() {
     useFrame((state, delta) => {
@@ -38,30 +39,18 @@ function Rig() {
     })
 }
 
-function Product(props) {
-    // const scroll = useScroll()
-    // const { products, setSelectedProduct, selectedProduct } = useCustomization()
-    // const index = props.index
-
-    // useFrame(() => {
-    //     if (selectedProduct == index) {
-    //         const bool = scroll.visible(index / products.length, index / products.length, 0.25)
-    //         if (!bool)
-    //             setSelectedProduct(null)
-    //     }
-    // })
-
+const ProductMemo = memo(function Product(props) {
     return <group  {...props}>
         <Center>
             {props.children}
         </Center>
     </group>
-}
+})
 
 function Items() {
     const { height: h } = useThree((state) => state.viewport)
     const { products, selectedProduct, setSelectedProduct, mainColorsPalette, mainColor,
-        selectedColors, setSelectedColors } = useCustomization()
+        selectedColors, setSelectedColors, cart, setCart } = useCustomization()
 
     const wrapVariants = {
         visible: {
@@ -99,7 +88,7 @@ function Items() {
 
     function selectProductCallback(i) {
         setSelectedProduct(i)
-        setSelectedColors([])
+        // setSelectedColors([])
     }
 
     function chooseColor(i, color) {
@@ -108,18 +97,33 @@ function Items() {
         setSelectedColors(slColors)
     }
 
+    function addToCart(index) {
+        const cartUpdated = { ...cart }
+        if (!cartUpdated[i]) {
+            cartUpdated[i] = 1
+        } else {
+            cartUpdated[i]++
+        }
+
+        setCart(cartUpdated)
+    }
+
     return <>
         <Scroll>
             {
                 products.map((x, i) =>
-                    <Product key={i} position-y={-h * i} index={i}>
-                        <Backdrop />
-                        {x.component}
-                        <Text scale={0.25} position={[0.25 * (i % 2 == 0 ? -1 : 1), 0.5, -0.5]}>
+                    <ProductMemo key={i} position-y={-h * i} index={i}>
+                        <Suspense>
+                            <BackdropMemo />
+                            {x.component}
+                        </Suspense>
+                        <Text scale={0.15} position={[0.25 * (i % 2 == 0 ? -1 : 1), 0.5, -0.15]}>
                             {x.title}
-                            <meshPhongMaterial color="#FFFFFF" />
                         </Text>
-                    </Product>
+                        <Text scale={0.08} position={[0.25 * (i % 2 == 0 ? 1 : -1), -0.05, 0.45]}>
+                            {x.price} €
+                        </Text>
+                    </ProductMemo>
                 )
             }
         </Scroll>
@@ -139,7 +143,7 @@ function Items() {
                         </AnimatePresence>
                         <div className="scroll-html__section__actions">
                             <motion.button variants={ctaVariants} initial="normal" animate={selectedProduct == i ? "solo" : "normal"}
-                                onClick={() => console.log("test")}>
+                                onClick={() => addToCart(i)}>
                                 Acheter
                             </motion.button>
                             <AnimatePresence mode="popLayout">

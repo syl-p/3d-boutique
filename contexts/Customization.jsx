@@ -12,21 +12,24 @@ const products = [
         title: "T-shirt 1",
         buzzline: "Pour avoir le style",
         description: "Text de presentation du produit",
-        colorsPositions: [[100, 100]]
+        colorsPositions: [[100, 100]],
+        price: 13.5
     },
     {
         component: <Shoe />,
         title: "Shoes",
         buzzline: "Pour courrir vite",
         description: "Text de presentation du produit",
-        colorsPositions: [[0, 0], [-100, -100]]
+        colorsPositions: [[0, 0], [-100, -100]],
+        price: 35.9
     },
     {
         component: <BaseballCap />,
         title: "Casquette",
         buzzline: "Pour se protéger du soleil",
         description: "Text de presentation du produit",
-        colorsPositions: [[0, 0], [-100, -140]]
+        colorsPositions: [[0, 0], [-100, -140]],
+        price: 12.9
     }
 ]
 
@@ -34,13 +37,15 @@ export const CustomizationProvider = (props) => {
     const [mainColor, setMainColor] = useState(0)
     const [selectedProduct, setSelectedProduct] = useState(null)
     const [selectedColors, setSelectedColors] = useState([0])
+    const [cart, setCart] = useState({})
 
     return <CustomizationContext.Provider value={{
         products,
         mainColorsPalette,
         mainColor, setMainColor,
         selectedColors, setSelectedColors,
-        selectedProduct, setSelectedProduct
+        selectedProduct, setSelectedProduct,
+        cart, setCart
     }}>
         {props.children}
     </CustomizationContext.Provider>

@@ -16,14 +16,14 @@ export function BaseballCap(props) {
   const { selectedColors, mainColorsPalette } = useCustomization()
 
   return (
-    <group {...props} dispose={null} scale={0.0025} rotation={[0, - Math.PI / 0.45, 0]} position-z={0.75} position-y={0.125}>
+    <group {...props} dispose={null} scale={0.0025} rotation={[0, - Math.PI / 0.45, 0]} position-y={0.125}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
-          <mesh castShadow geometry={nodes.baseballCap.geometry} material={materials.baseballCap} material-color={mainColorsPalette[selectedColors[0] ?? 0]} position={[0.005, -2.9, -11.842]} rotation={[-0.161, 0, 0]} scale={20.118} />
-          <mesh castShadow geometry={nodes.baseballCap_1.geometry} material={materials.baseballCap} position={[0.005, -2.9, -11.842]} rotation={[-0.161, 0, 0]} scale={20.118} />
+          <mesh castShadow geometry={nodes.baseballCap.geometry} material={materials.baseballCap.clone()} material-color={mainColorsPalette[selectedColors[1] ?? 0]} position={[0.005, -2.9, -11.842]} rotation={[-0.161, 0, 0]} scale={20.118} />
+          <mesh castShadow geometry={nodes.baseballCap_1.geometry} material={materials.baseballCap.clone()} material-color={mainColorsPalette[selectedColors[1] ?? 0]} position={[0.005, -2.9, -11.842]} rotation={[-0.161, 0, 0]} scale={20.118} />
           <mesh castShadow geometry={nodes.plastic.geometry} material={materials.plastic} position={[0.005, -2.9, -11.842]} rotation={[-0.161, 0, 0]} scale={20.118} />
           <mesh castShadow geometry={nodes.plastic_1.geometry} material={materials.plastic} position={[0.005, -2.9, -11.842]} rotation={[-0.161, 0, 0]} scale={20.118} />
-          <mesh castShadow geometry={nodes.baseballCap_2.geometry} material={materials.baseballCap} material-color={mainColorsPalette[selectedColors[1] ?? 0]} position={[0.005, -2.9, -11.842]} rotation={[-0.161, 0, 0]} scale={20.118} />
+          <mesh castShadow geometry={nodes.baseballCap_2.geometry} material={materials.baseballCap.clone()} material-color={mainColorsPalette[selectedColors[1] ?? 0]} position={[0.005, -2.9, -11.842]} rotation={[-0.161, 0, 0]} scale={20.118} />
           <mesh castShadow geometry={nodes.blinn1SG.geometry} material={materials.blinn1SG} position={[0.005, -2.9, -11.842]} rotation={[-0.161, 0, 0]} scale={20.118} />
           <mesh castShadow geometry={nodes.baseballCap_3.geometry} material={materials.baseballCap.clone()} material-color={mainColorsPalette[selectedColors[0] ?? 0]} position={[0.005, -2.9, -11.842]} rotation={[-0.161, 0, 0]} scale={20.118} />
         </group>
