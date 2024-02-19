@@ -13,17 +13,19 @@ import Header from './Header';
 const BackdropMemo = memo(function Backdrop() {
     const { mainColorsPalette, selectedColors, selectedProduct } = useCustomization()
     const shadows = useRef()
+    const {scene} = useThree()
     useEffect(() => {
         if (shadows.current) {
             const newColor = new THREE.Color(mainColorsPalette[selectedColors[0]])
-            gsap.to(shadows.current.getMesh().material.color, { ...newColor, duration: 1 })
+            // gsap.to(shadows.current.getMesh().material.color, { ...newColor, duration: 1 })
+            gsap.to(scene.background, { ...newColor, duration: 1.3 })
         }
     }, [selectedColors, selectedProduct])
 
-    return <AccumulativeShadows ref={shadows} alphaTest={0.5}
+    return <AccumulativeShadows ref={shadows} alphaTest={0.4}
         scale={10} rotation={[Math.PI / 2, 0, 0]} position={[0, 0.25, -0.30]}>
-        <RandomizedLight amount={4} radius={9} intensity={0.90} ambient={0.25} position={[5, 3, -10]} />
-        <RandomizedLight amount={4} radius={5} intensity={0.70} ambient={0.55} position={[-5, 3, -9]} />
+        <RandomizedLight amount={4} radius={9} intensity={0.90} ambient={0.25} position={[5, 3, -5]} />
+        <RandomizedLight amount={4} radius={5} intensity={0.70} ambient={0.55} position={[-5, 3, -4]} />
     </AccumulativeShadows>
 })
 
@@ -97,7 +99,7 @@ function Items() {
         setSelectedColors(slColors)
     }
 
-    function addToCart(index) {
+    function addToCart(i) {
         const cartUpdated = { ...cart }
         if (!cartUpdated[i]) {
             cartUpdated[i] = 1
@@ -106,6 +108,7 @@ function Items() {
         }
 
         setCart(cartUpdated)
+        console.log(cart)
     }
 
     return <>
@@ -184,7 +187,8 @@ const SceneMemo = memo(function Scene() {
 function App() {
     return <CustomizationProvider>
         <Header />
-        <Canvas shadows camera={{ position: [0, 0, 2.5], fov: 25 }} style={{ backgroundColor: "white" }} dpr={[1, 1.5]} eventPrefix="client">
+        <Canvas shadows camera={{ position: [0, 0, 2.5], fov: 25 }} dpr={[1, 1.5]} eventPrefix="client">
+            <color attach="background" arg={["#ccc"]} />
             <ambientLight intensity={1} />
             <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/potsdamer_platz_1k.hdr" />
             <Suspense>
